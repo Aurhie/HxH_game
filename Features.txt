@@ -1,0 +1,14 @@
+Arte do jogo em sprites.
+pause, game over, e start menu.
+Sistema de animação.
+controle pelo teclado.
+Sistema para Shooting.
+Sistema de mapa.
+sistema de fases.
+inimigos no jogo.
+Boss battle.
+coletar items.
+Aumentar status de acordo com item.
+Sistema de dano.
+sistema para salvar o jogo e carregar o jogo.
+Audio e musica.
