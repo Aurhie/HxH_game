@@ -1,2 +1,2 @@
 # HxH_game
-Hunter x Hunter fan game.
+Hunter x Hunter game for study.
