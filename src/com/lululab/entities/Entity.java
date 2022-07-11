@@ -3,7 +3,14 @@ package com.lululab.entities;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import com.lululab.main.Game;
+
 public class Entity {
+	
+	public static BufferedImage LIFEPACK_EN = Game.spritesheet.getSprite(96, 0, 16, 16);
+	public static BufferedImage HATSU_EN = Game.spritesheet.getSprite(112, 0, 16, 16);
+	public static BufferedImage NEN_EN = Game.spritesheet.getSprite(96, 16, 16, 16);
+	public static BufferedImage PIG_EN = Game.spritesheet.getSprite(0, 32, 16, 16);
 	
 	protected double x;
 	protected double y;
