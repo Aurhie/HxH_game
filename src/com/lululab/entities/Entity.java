@@ -3,17 +3,24 @@ package com.lululab.entities;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import com.lululab.main.Game;
+import com.lululab.world.Camera;
+
 public class Entity {
-	
+
+	public static BufferedImage LIFEPACK_EN = Game.spritesheet.getSprite(96, 0, 16, 16);
+	public static BufferedImage HATSU_EN = Game.spritesheet.getSprite(112, 0, 16, 16);
+	public static BufferedImage NEN_EN = Game.spritesheet.getSprite(96, 16, 16, 16);
+	public static BufferedImage PIG_EN = Game.spritesheet.getSprite(0, 32, 16, 16);
+
 	protected double x;
 	protected double y;
 	protected int width;
 	protected int height;
-	
+
 	private BufferedImage sprite;
-	
-	public Entity(int x, int y, int width, int height, BufferedImage sprite)
-	{
+
+	public Entity(int x, int y, int width, int height, BufferedImage sprite) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -22,7 +29,7 @@ public class Entity {
 	}
 
 	public int getX() {
-		return (int)this.x;
+		return (int) this.x;
 	}
 
 	public void setX(int newX) {
@@ -30,7 +37,7 @@ public class Entity {
 	}
 
 	public int getY() {
-		return (int)this.y;
+		return (int) this.y;
 	}
 
 	public void setY(int newY) {
@@ -52,12 +59,12 @@ public class Entity {
 	public void setHeight(int height) {
 		this.height = height;
 	}
-	
+
 	public void render(Graphics g) {
-		g.drawImage(sprite, this.getX(), this.getY(), null);
+		g.drawImage(sprite, this.getX() - Camera.x, this.getY() - Camera.y, null);
 	}
 
-	public void tick() {	
+	public void tick() {
 	}
-	
+
 }
