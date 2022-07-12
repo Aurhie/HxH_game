@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
-import com.lululab.entities.Player;
+import com.lululab.main.Game;
 
 public class UI {
 	
@@ -12,10 +12,10 @@ public class UI {
 		g.setColor(Color.red);
 		g.fillRect(5, 10, 50, 10);
 		g.setColor(Color.green);
-		g.fillRect(5, 10, (int)((Player.life/Player.maxlife)*50), 10);
+		g.fillRect(5, 10, (int)((Game.player.life/Game.player.maxlife)*50), 10);
 		g.setColor(Color.white);
 		g.setFont(new Font("Arial", Font.BOLD ,10));
-		g.drawString((int)Player.life+"/"+(int)Player.maxlife, 5, 19);
+		g.drawString((int)Game.player.life+"/"+(int)Game.player.maxlife, 5, 19);
 	}
 
 }

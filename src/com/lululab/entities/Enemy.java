@@ -19,20 +19,15 @@ public class Enemy extends Entity {
 
 	private int frames = 0, maxFrames = 3, index = 0, maxIndex = 2;
 
-	private BufferedImage[] rightEnemy;
-	// private BufferedImage[] leftEnemy;
+	private BufferedImage[] sprites;
 
-	public Enemy(int x, int y, int width, int height, BufferedImage sprite) {
+	public Enemy(int x, int y, int width, int height, BufferedImage[] sprite) {
 		super(x, y, width, height, null);
-		rightEnemy = new BufferedImage[3];
-		// leftEnemy = new BufferedImage[3];
-		for (int i = 0; i < 3; i++) {
-			rightEnemy[i] = Game.spritesheet.getSprite(0 + (i * 16), 32, 16, 16);
-		}
-		/*
-		 * for (int i = 0; i < 3; i++) { leftEnemy[i] = Game.spritesheet.getSprite(0 +
-		 * (i * 16), 48, 16, 16); }
-		 */
+		sprites = new BufferedImage[3];
+		this.sprites[0] = sprite[0];
+		this.sprites[1] = sprite[1];
+		this.sprites[2] = sprite[2];
+	
 	}
 
 	public void tick() {
@@ -54,12 +49,9 @@ public class Enemy extends Entity {
 		} else {
 			// player perde vida.
 			if (Game.rand.nextInt(100) < 10) {
-				Game.player.life-= 10; // =Game.rand.nextInt(3);
-				System.out.println("Life: " +Game.player.life);
-				if (Game.player.life <= 0) {
-					//Game Over!
-					System.exit(1);
-				}
+				Game.player.life-= Game.rand.nextInt(3);
+				//System.out.println("Life: " +Game.player.life);
+				Game.player.isDamaged = true;
 			}
 		}
 
@@ -94,7 +86,7 @@ public class Enemy extends Entity {
 
 	public void render(Graphics g) {
 		if (dir == right_dir) {
-			g.drawImage(rightEnemy[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+			g.drawImage(sprites[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 			/*
 			 * } else if (dir == left_dir) { g.drawImage(leftEnemy[index], this.getX() -
 			 * Camera.x, this.getY() - Camera.y, null); }

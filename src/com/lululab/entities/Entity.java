@@ -1,6 +1,7 @@
 package com.lululab.entities;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import com.lululab.main.Game;
@@ -12,6 +13,7 @@ public class Entity {
 	public static BufferedImage HATSU_EN = Game.spritesheet.getSprite(112, 0, 16, 16);
 	public static BufferedImage NEN_EN = Game.spritesheet.getSprite(96, 16, 16, 16);
 	public static BufferedImage ENEMY_EN = Game.spritesheet.getSprite(0, 32, 16, 16);
+	public static BufferedImage JAJANKEN = Game.spritesheet.getSprite(128, 0, 16, 16);
 
 	protected double x;
 	protected double y;
@@ -20,12 +22,26 @@ public class Entity {
 
 	private BufferedImage sprite;
 
+	private int maskX, maskY, maskW, maskH;
+
 	public Entity(int x, int y, int width, int height, BufferedImage sprite) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.sprite = sprite;
+
+		this.maskX = 0;
+		this.maskY = 0;
+		this.maskW = width;
+		this.maskH = height;
+	}
+
+	public void setMask(int maskX, int maskY, int maskW, int maskH) {
+		this.maskX = maskX;
+		this.maskY = maskY;
+		this.maskW = maskW;
+		this.maskH = maskH;
 	}
 
 	public int getX() {
@@ -60,11 +76,18 @@ public class Entity {
 		this.height = height;
 	}
 
-	public void render(Graphics g) {
-		g.drawImage(sprite, this.getX() - Camera.x, this.getY() - Camera.y, null);
+	public void tick() {
 	}
 
-	public void tick() {
+	public static boolean isColliding(Entity e1, Entity e2) {
+		Rectangle e1Mask = new Rectangle(e1.getX() + e1.maskX, e1.getY() + e1.maskY, e1.maskW, e1.maskH);
+		Rectangle e2Mask = new Rectangle(e2.getX() + e2.maskX, e2.getY() + e2.maskY, e2.maskW, e2.maskH);
+
+		return e1Mask.intersects(e2Mask);
+	}
+
+	public void render(Graphics g) {
+		g.drawImage(sprite, this.getX() - Camera.x, this.getY() - Camera.y, null);
 	}
 
 }

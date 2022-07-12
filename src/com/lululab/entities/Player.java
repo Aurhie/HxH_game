@@ -2,7 +2,9 @@ package com.lululab.entities;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
+import com.lululab.graphics.Spritesheet;
 import com.lululab.main.Game;
 import com.lululab.world.Camera;
 import com.lululab.world.World;
@@ -18,20 +20,31 @@ public class Player extends Entity {
 	private boolean moved = false;
 	private BufferedImage[] rightPlayer;
 	private BufferedImage[] leftPlayer;
-	
-	public static double life = 100, maxlife = 100;
+
+	private BufferedImage playerDamage;
+
+	private boolean hasHatsu = false;
+
+	public int nen = 0;
+
+	public boolean isDamaged = false;
+	private int damageFrames = 0;
+
+	public double life = 100, maxlife = 100;
 
 	public Player(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, sprite);
 
 		rightPlayer = new BufferedImage[4];
 		leftPlayer = new BufferedImage[4];
+		playerDamage = Game.spritesheet.getSprite(0, 16, 16, 16);
 		for (int i = 0; i < 4; i++) {
 			rightPlayer[i] = Game.spritesheet.getSprite(32 + (i * 16), 0, 16, 16);
 		}
 		for (int i = 0; i < 4; i++) {
 			leftPlayer[i] = Game.spritesheet.getSprite(32 + (i * 16), 16, 16, 16);
 		}
+
 	}
 
 	public void tick() {
@@ -68,15 +81,91 @@ public class Player extends Entity {
 			}
 		}
 
+		this.checkCollisionLifepack();
+		this.checkCollisionNen();
+		this.checkCollisionHatsu();
+
+		if (isDamaged) {
+			this.damageFrames++;
+			if (this.damageFrames == 8) {
+				this.damageFrames = 0;
+				isDamaged = false;
+			}
+		}
+		if (life <= 0) {
+			Game.entities = new ArrayList<Entity>();
+			Game.enemies = new ArrayList<Enemy>();
+			Game.spritesheet = new Spritesheet("/spritesheet.png ");
+			Game.player = new Player(0, 0, 16, 16, Game.spritesheet.getSprite(32, 0, 16, 16));
+			Game.entities.add(Game.player);
+			Game.world = new World("/map.png");
+			return;
+		}
+
 		Camera.x = Camera.clamp(this.getX() - (Game.WIDTH / 2), 0, World.WIDTH * 16 - Game.WIDTH);
 		Camera.y = Camera.clamp(this.getY() - (Game.HEIGHT / 2), 0, World.HEIGHT * 16 - Game.HEIGHT);
 	}
 
+	public void checkCollisionHatsu() {
+		for (int i = 0; i < Game.entities.size(); i++) {
+			Entity ent = Game.entities.get(i);
+			if (ent instanceof Hatsu) {
+				if (Entity.isColliding(this, ent)) {
+					hasHatsu = true;
+					Game.entities.remove(ent);
+					return;
+
+				}
+			}
+		}
+	}
+
+	public void checkCollisionNen() {
+		for (int i = 0; i < Game.entities.size(); i++) {
+			Entity ent = Game.entities.get(i);
+			if (ent instanceof Nen) {
+				if (Entity.isColliding(this, ent)) {
+					nen += 10;
+					// System.out.println("Nen atual: "+ nen);
+					Game.entities.remove(ent);
+					return;
+
+				}
+			}
+		}
+	}
+
+	public void checkCollisionLifepack() {
+		for (int i = 0; i < Game.entities.size(); i++) {
+			Entity ent = Game.entities.get(i);
+			if (ent instanceof Lifepack) {
+				if (Entity.isColliding(this, ent)) {
+					life += 25;
+					if (life >= Game.player.maxlife)
+						life = Game.player.maxlife;
+					Game.entities.remove(ent);
+					return;
+
+				}
+			}
+		}
+	}
+
 	public void render(Graphics g) {
-		if (dir == right_dir) {
-			g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-		} else if (dir == left_dir) {
-			g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+		if (!isDamaged) {
+			if (dir == right_dir) {
+				g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				if (hasHatsu) {
+g.drawImage(Entity.JAJANKEN, this.getX() - Camera.x ,this.getY() - Camera.y, null);
+				}
+			} else if (dir == left_dir) {
+				g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				if (hasHatsu) {
+					g.drawImage(Entity.JAJANKEN, this.getX() - Camera.x ,this.getY() - Camera.y, null);
+				}
+			}
+		} else {
+			g.drawImage(playerDamage, this.getX() - Camera.x, this.getY() - Camera.y, null);
 		}
 	}
 }

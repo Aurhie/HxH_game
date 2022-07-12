@@ -6,11 +6,11 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.lululab.entities.Enemy;
 import com.lululab.entities.Entity;
 import com.lululab.entities.Hatsu;
 import com.lululab.entities.Lifepack;
 import com.lululab.entities.Nen;
-import com.lululab.entities.Enemy;
 import com.lululab.main.Game;
 
 public class World {
@@ -45,7 +45,11 @@ public class World {
 					}
 					// Pig
 					else if (pixelAtual == 0xFFFF0000) {
-						Enemy en = new Enemy(xx * 16, yy * 16, 16, 16, Entity.ENEMY_EN);
+						BufferedImage[] buf = new BufferedImage[3];
+							buf[0] = Game.spritesheet.getSprite(0 , 32, 16, 16);
+							buf[1] = Game.spritesheet.getSprite(16 , 32, 16, 16);
+							buf[2] = Game.spritesheet.getSprite(32 , 32, 16, 16);
+						Enemy en = new Enemy(xx*16, yy*16, 16, 16, buf);
 						Game.entities.add(en);
 						Game.enemies.add(en);
 					}
@@ -60,6 +64,7 @@ public class World {
 					// Vida
 					else if (pixelAtual == 0xFFFF7F7F) {
 						Game.entities.add(new Lifepack(xx * 16, yy * 16, 16, 16, Entity.LIFEPACK_EN));
+						
 					}
 				}
 			}
