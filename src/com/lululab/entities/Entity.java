@@ -4,25 +4,15 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import com.lululab.main.Game;
-<<<<<<< HEAD
 import com.lululab.world.Camera;
 
 public class Entity {
 
-=======
-
-public class Entity {
-	
->>>>>>> 9f84f4fd624d7289facb19b8712e1cd912314669
 	public static BufferedImage LIFEPACK_EN = Game.spritesheet.getSprite(96, 0, 16, 16);
 	public static BufferedImage HATSU_EN = Game.spritesheet.getSprite(112, 0, 16, 16);
 	public static BufferedImage NEN_EN = Game.spritesheet.getSprite(96, 16, 16, 16);
-	public static BufferedImage PIG_EN = Game.spritesheet.getSprite(0, 32, 16, 16);
-<<<<<<< HEAD
+	public static BufferedImage ENEMY_EN = Game.spritesheet.getSprite(0, 32, 16, 16);
 
-=======
-	
->>>>>>> 9f84f4fd624d7289facb19b8712e1cd912314669
 	protected double x;
 	protected double y;
 	protected int width;

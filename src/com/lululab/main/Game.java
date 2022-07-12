@@ -10,65 +10,53 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JFrame;
 
+import com.lululab.entities.Enemy;
 import com.lululab.entities.Entity;
 import com.lululab.entities.Player;
 import com.lululab.graphics.Spritesheet;
+import com.lululab.graphics.UI;
 import com.lululab.world.World;
 
-<<<<<<< HEAD
 public class Game extends Canvas implements Runnable, KeyListener {
 
-=======
-public class Game extends Canvas implements Runnable,KeyListener{
-	
->>>>>>> 9f84f4fd624d7289facb19b8712e1cd912314669
 	private static final long serialVersionUID = 1L;
 	public static JFrame frame;
 	private Thread thread;
 	private boolean isRunning = true;
-<<<<<<< HEAD
 	public static final int WIDTH = 250;
 	public static final int HEIGHT = 210;
-=======
-	private final int WIDTH = 250;
-	private final int HEIGHT = 210;
->>>>>>> 9f84f4fd624d7289facb19b8712e1cd912314669
 	private final int SCALE = 4;
 
 	private BufferedImage image;
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> 9f84f4fd624d7289facb19b8712e1cd912314669
 	public static List<Entity> entities;
+	public static List<Enemy> enemies;
 	public static Spritesheet spritesheet;
 
 	public static World world;
-<<<<<<< HEAD
 
 	public static Player player;
+	
+	public static Random rand;
+	
+	public UI ui;
 
 	public Game() {
-=======
-	
-	public static Player player;
-	
-	public Game()
-	{
->>>>>>> 9f84f4fd624d7289facb19b8712e1cd912314669
+		rand = new Random();
 		addKeyListener(this);
 		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 		initFrame();
 		// Inicializando objetos.
 
+		ui = new UI();
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		entities = new ArrayList<Entity>();
+		enemies = new ArrayList<Enemy>();
 		spritesheet = new Spritesheet("/spritesheet.png ");
-<<<<<<< HEAD
 		player = new Player(0, 0, 16, 16, spritesheet.getSprite(32, 0, 16, 16));
 		entities.add(player);
 		world = new World("/map.png");
@@ -76,16 +64,6 @@ public class Game extends Canvas implements Runnable,KeyListener{
 	// Criação do player
 
 	public void initFrame() {
-=======
-		player = new Player(0,0,16,	16,spritesheet.getSprite(32,0,16,16));
-		entities.add(player);
-		world = new World("/map.png");
-	}		
-		//Criação do player
-	
-	public void initFrame()
-	{
->>>>>>> 9f84f4fd624d7289facb19b8712e1cd912314669
 		frame = new JFrame("HxH");
 		frame.add(this);
 		frame.setResizable(false);
@@ -144,6 +122,8 @@ public class Game extends Canvas implements Runnable,KeyListener{
 			Entity e = entities.get(i);
 			e.render(g);
 		}
+		//User Interface.
+		ui.render(g);
 		// Graphics2D g2 = (Graphics2D) g; //Casting
 
 		g.dispose();
@@ -160,6 +140,7 @@ public class Game extends Canvas implements Runnable,KeyListener{
 		double delta = 0;
 		int frames = 0;
 		double timer = System.currentTimeMillis();
+		requestFocus();
 		while (isRunning) {
 			long now = System.nanoTime();
 			delta += (now - lastTime) / ns;
